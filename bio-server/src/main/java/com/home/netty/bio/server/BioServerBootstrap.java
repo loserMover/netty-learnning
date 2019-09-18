@@ -1,11 +1,14 @@
 package com.home.netty.bio.server;
 
+import com.home.netty.bio.handler.BioChannelHandler;
 import com.home.netty.bio.handler.BioHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -20,8 +23,31 @@ public class BioServerBootstrap {
     public static void main(String[] args) {
 
        Executor executor = Executors.newFixedThreadPool(5);
+        ServerSocketChannel ssc = null;
+        try {
+            ssc = ServerSocketChannel.open();
+            ssc.socket().bind(new InetSocketAddress(8080));
+          //  ssc.bind(new InetSocketAddress(8080));
+        //    ssc.configureBlocking(false);
+            while (true){
+                SocketChannel channel =  ssc.accept();
+                executor.execute(new BioChannelHandler(channel));
+            }
 
-        ServerSocket serverSocket = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ssc.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+      /*  ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(1000));
@@ -45,7 +71,7 @@ public class BioServerBootstrap {
                 serverSocket = null;
             }
         }
-
+*/
 
     }
 }

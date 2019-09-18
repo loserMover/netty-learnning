@@ -21,7 +21,7 @@ public class BioClientBootstrap {
         BufferedReader in = null;
         PrintWriter out = null;
         try {
-            socket = new Socket("127.0.0.1", 1000);
+            socket = new Socket("127.0.0.1", 8080);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
             out.println("send data for client, data: hello bio");
