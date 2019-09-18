@@ -31,6 +31,8 @@
         <module>bio-client</module>
         <module>nio-server</module>
         <module>nio-client</module>
+        <module>netty-server</module>
+        <module>netty-client</module>
     </modules>
 
     <build>
