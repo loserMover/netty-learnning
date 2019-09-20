@@ -16,14 +16,27 @@
     <version>1.0.0-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
+        <netty.version>4.1.41.Final</netty.version>
+        <fastjson.version>1.2.29</fastjson.version>
     </properties>
     <dependencies>
 
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
-            <version>4.1.42.Final-SNAPSHOT</version>
+            <version>${netty.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
     <modules>
@@ -33,6 +46,9 @@
         <module>nio-client</module>
         <module>netty-server</module>
         <module>netty-client</module>
+        <module>netty-im-server</module>
+        <module>netty-im-client</module>
+        <module>netty-im-common</module>
     </modules>
 
     <build>
