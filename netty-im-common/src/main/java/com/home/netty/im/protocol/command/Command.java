@@ -7,6 +7,7 @@ package com.home.netty.im.protocol.command;
  * @modified by:
  */
 public interface Command {
+
     /**
      * 登录请求指令
      */
@@ -14,9 +15,17 @@ public interface Command {
 
     /**
      * 登录响应指令
-     *
-     *
      */
     Byte LOGIN_RESPONSE= 2;
+
+    /**
+     * 消息请求指令
+     */
+    Byte MESSAGE_REQUEST= 3;
+
+    /**
+     * 消息响应指令
+     */
+    Byte MESSAGE_RESPONSE = 4;
 
 }

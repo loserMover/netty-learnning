@@ -36,6 +36,11 @@ public class ImServerBootstrap {
         bind(serverBootstrap, PORT);
     }
 
+    /**
+     * 服务绑定监听端口号，失败则端口号加一直到成功
+     * @param bootstrap
+     * @param port
+     */
     private static void bind(ServerBootstrap bootstrap, int port){
         bootstrap.bind(port).addListener(future -> {
             if (future.isSuccess()) {

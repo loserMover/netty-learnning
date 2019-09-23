@@ -4,11 +4,14 @@ import com.home.netty.im.protocol.Packet;
 import com.home.netty.im.protocol.PacketCodec;
 import com.home.netty.im.protocol.request.LoginRequestPacket;
 import com.home.netty.im.protocol.response.LoginResponsePacket;
+import com.home.netty.im.protocol.response.MessageResponsePacket;
+import com.home.netty.im.util.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -34,7 +37,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
         loginRequestPacket.setUsername("wulj");
         loginRequestPacket.setPassword("111111");
         //通信协议编码
-        ByteBuf byteBuf = PacketCodec.INSTANCE.encode(loginRequestPacket);
+        ByteBuf byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
         //写数据
         ctx.channel().writeAndFlush(byteBuf);
     }
@@ -54,9 +57,13 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket)packet;
             if (loginResponsePacket.isSuccess()){
                 System.out.println("客户端登录成功");
+                LoginUtil.markAsLogin(ctx.channel());
             } else {
                 System.out.println("客户端登录失败，失败的原因：" + loginResponsePacket.getReason());
             }
+        } else if (packet instanceof MessageResponsePacket){
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println(new Date() + ": 接收到服务端的消息：" + messageResponsePacket.getMessage());
         }
     }
 }

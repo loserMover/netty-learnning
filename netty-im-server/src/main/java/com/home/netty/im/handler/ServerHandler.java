@@ -3,7 +3,9 @@ package com.home.netty.im.handler;
 import com.home.netty.im.protocol.Packet;
 import com.home.netty.im.protocol.PacketCodec;
 import com.home.netty.im.protocol.request.LoginRequestPacket;
+import com.home.netty.im.protocol.request.MessageRequestPacket;
 import com.home.netty.im.protocol.response.LoginResponsePacket;
+import com.home.netty.im.protocol.response.MessageResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -46,9 +48,19 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                 System.out.println(new Date() + ": 登录失败!");
             }
             //同学协议编码
-            ByteBuf responseBuf = PacketCodec.INSTANCE.encode(loginResponsePacket);
+            ByteBuf responseBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
             //写数据
             ctx.channel().writeAndFlush(responseBuf);
+        } else if(packet instanceof MessageRequestPacket){
+            //处理消息
+            MessageRequestPacket messageRequestPacket = (MessageRequestPacket)packet;
+            System.out.println(new Date() + ": 收到客户端消息：" + messageRequestPacket.getMessage());
+
+            //响应请求
+            MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+            messageResponsePacket.setMessage("服务端回复：【" + messageRequestPacket.getMessage() + "】");
+            ByteBuf responseBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
+            ctx.writeAndFlush(responseBuf);
         }
 
 

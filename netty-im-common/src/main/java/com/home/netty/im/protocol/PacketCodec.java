@@ -2,7 +2,9 @@ package com.home.netty.im.protocol;
 
 import com.home.netty.im.protocol.command.Command;
 import com.home.netty.im.protocol.request.LoginRequestPacket;
+import com.home.netty.im.protocol.request.MessageRequestPacket;
 import com.home.netty.im.protocol.response.LoginResponsePacket;
+import com.home.netty.im.protocol.response.MessageResponsePacket;
 import com.home.netty.im.serialize.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -30,6 +32,8 @@ public class PacketCodec {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         serializerMap.put(Serializer.DEFAULT.getSerializerAlgorithm(), Serializer.DEFAULT);
@@ -37,12 +41,13 @@ public class PacketCodec {
 
     /**
      * 通信协议编码
+     * @param byteBufAllocator
      * @param packet
      * @return
      */
-    public ByteBuf encode(Packet packet){
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet){
         //1.创建ByteBuf 对象
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
         //2.序列化传送对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
