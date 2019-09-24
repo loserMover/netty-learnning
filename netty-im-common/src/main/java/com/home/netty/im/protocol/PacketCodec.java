@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class PacketCodec {
 
-    private static final int MAGIC_NUMBER = 0X12345678;
+    public static final int MAGIC_NUMBER = 0X12345678;
 
     public static final PacketCodec INSTANCE = new PacketCodec();
 
@@ -41,13 +41,11 @@ public class PacketCodec {
 
     /**
      * 通信协议编码
-     * @param byteBufAllocator
+     * @param byteBuf
      * @param packet
      * @return
      */
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet){
-        //1.创建ByteBuf 对象
-        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet){
         //2.序列化传送对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 

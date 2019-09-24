@@ -1,6 +1,10 @@
 package com.home.netty.im.client;
 
-import com.home.netty.im.handler.ClientHandler;
+import com.home.netty.im.codec.PacketDecoder;
+import com.home.netty.im.codec.PacketEncoder;
+import com.home.netty.im.codec.Spliter;
+import com.home.netty.im.handler.LoginResponseHandler;
+import com.home.netty.im.handler.MessageResponseHandler;
 import com.home.netty.im.protocol.PacketCodec;
 import com.home.netty.im.protocol.request.MessageRequestPacket;
 import com.home.netty.im.util.LoginUtil;
@@ -36,13 +40,17 @@ public class ImClientBootstrap {
 
         bootstrap.group(worker)
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 8*1024)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new Spliter());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
         connect(bootstrap, HOST, PORT, MAX_RETRY);
@@ -87,8 +95,7 @@ public class ImClientBootstrap {
                     String line = sc.nextLine();
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
-                    ByteBuf byteBuf = PacketCodec.INSTANCE.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(packet);
                 }
             }
         }).start();

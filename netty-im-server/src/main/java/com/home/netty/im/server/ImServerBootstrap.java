@@ -1,6 +1,10 @@
 package com.home.netty.im.server;
 
-import com.home.netty.im.handler.ServerHandler;
+import com.home.netty.im.codec.PacketDecoder;
+import com.home.netty.im.codec.PacketEncoder;
+import com.home.netty.im.codec.Spliter;
+import com.home.netty.im.handler.LoginRequestHandler;
+import com.home.netty.im.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -30,7 +34,11 @@ public class ImServerBootstrap {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandler());
+                        ch.pipeline().addLast(new Spliter());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new MessageRequestHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
         bind(serverBootstrap, PORT);
