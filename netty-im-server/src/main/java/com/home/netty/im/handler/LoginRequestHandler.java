@@ -3,6 +3,7 @@ package com.home.netty.im.handler;
 import com.home.netty.im.protocol.PacketCodec;
 import com.home.netty.im.protocol.request.LoginRequestPacket;
 import com.home.netty.im.protocol.response.LoginResponsePacket;
+import com.home.netty.im.util.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,6 +26,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
         loginResponsePacket.setVersion(packet.getVersion());
         if(valid(packet)){
+            LoginUtil.markAsLogin(ctx.channel());
             loginResponsePacket.setSuccess(Boolean.TRUE);
             loginResponsePacket.setReason("登录成功");
             System.out.println(new Date() + ": 登录成功!");
@@ -35,7 +37,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         }
         //写数据
         ctx.channel().writeAndFlush(loginResponsePacket);
-    }
+}
 
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {

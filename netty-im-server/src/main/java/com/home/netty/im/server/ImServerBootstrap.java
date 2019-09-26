@@ -3,8 +3,7 @@ package com.home.netty.im.server;
 import com.home.netty.im.codec.PacketDecoder;
 import com.home.netty.im.codec.PacketEncoder;
 import com.home.netty.im.codec.Spliter;
-import com.home.netty.im.handler.LoginRequestHandler;
-import com.home.netty.im.handler.MessageRequestHandler;
+import com.home.netty.im.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -37,6 +36,7 @@ public class ImServerBootstrap {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }

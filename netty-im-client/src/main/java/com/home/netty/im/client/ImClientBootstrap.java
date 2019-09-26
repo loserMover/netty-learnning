@@ -89,14 +89,12 @@ public class ImClientBootstrap {
     private static void startConsoleThread(Channel channel){
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtil.hasLogin(channel)){
-                    System.out.println("请输入消息发送至服务端：");
-                    Scanner sc = new Scanner(System.in);
-                    String line = sc.nextLine();
-                    MessageRequestPacket packet = new MessageRequestPacket();
-                    packet.setMessage(line);
-                    channel.writeAndFlush(packet);
-                }
+                System.out.println("请输入消息发送至服务端：");
+                Scanner sc = new Scanner(System.in);
+                String line = sc.nextLine();
+                MessageRequestPacket packet = new MessageRequestPacket();
+                packet.setMessage(line);
+                channel.writeAndFlush(packet);
             }
         }).start();
     }
