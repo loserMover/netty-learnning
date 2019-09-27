@@ -4,23 +4,21 @@ import com.home.netty.im.protocol.Packet;
 import com.home.netty.im.protocol.command.Command;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author: wulj13232
  * @description:
- * @date: Created in 18:35 2019/9/20
+ * @date: Created in 15:42 2019/9/27
  * @modified by:
  */
 @Data
-public class LoginRequestPacket extends Packet {
+public class CreateGroupRequestPacket extends Packet {
 
-    private String userName;
-
-    private String nikeName;
-
-    private String password;
+    private List<String> userIdList;
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_REQUEST;
+        return Command.CREATE_GROUP_REQUEST;
     }
 }

@@ -1,5 +1,6 @@
 package com.home.netty.im.constants;
 
+import com.home.netty.im.domain.Session;
 import io.netty.util.AttributeKey;
 
 /**
@@ -11,9 +12,9 @@ import io.netty.util.AttributeKey;
 public interface AttributeConstants {
 
     /**
-     * 用户登录标识
+     * 用户登录后会话标识
      */
-    AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
+    AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
 
 
 }

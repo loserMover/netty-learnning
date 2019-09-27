@@ -7,20 +7,16 @@ import lombok.Data;
 /**
  * @author: wulj13232
  * @description:
- * @date: Created in 18:35 2019/9/20
+ * @date: Created in 18:19 2019/9/27
  * @modified by:
  */
 @Data
-public class LoginRequestPacket extends Packet {
+public class QuitGroupRequestPacket extends Packet {
 
-    private String userName;
-
-    private String nikeName;
-
-    private String password;
+    private String groupId;
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_REQUEST;
+        return Command.QUIT_GROUP_REQUEST;
     }
 }

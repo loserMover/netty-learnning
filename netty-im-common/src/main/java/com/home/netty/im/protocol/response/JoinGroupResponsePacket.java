@@ -7,19 +7,13 @@ import lombok.Data;
 /**
  * @author: wulj13232
  * @description:
- * @date: Created in 18:36 2019/9/20
+ * @date: Created in 18:24 2019/9/27
  * @modified by:
  */
 @Data
-public class LoginResponsePacket extends Packet {
+public class JoinGroupResponsePacket extends Packet {
 
-    private String userId;
-
-    private String userName;
-
-    private String password;
-
-    private String nikeName;
+    private String groupId;
 
     private boolean success;
 
@@ -27,6 +21,6 @@ public class LoginResponsePacket extends Packet {
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_RESPONSE;
+        return Command.JOIN_GROUP_RESPONSE;
     }
 }

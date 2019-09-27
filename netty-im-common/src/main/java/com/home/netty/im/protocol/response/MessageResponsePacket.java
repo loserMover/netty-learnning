@@ -13,6 +13,12 @@ import lombok.Data;
 @Data
 public class MessageResponsePacket extends Packet {
 
+    private String fromUserId;
+
+    private String fromUserName;
+
+    private String fromNikeName;
+
     /**
      * 消息响应内容
      */

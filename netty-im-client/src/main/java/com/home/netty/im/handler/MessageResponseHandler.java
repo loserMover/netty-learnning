@@ -13,10 +13,9 @@ import java.util.Date;
  * @date: Created in 9:34 2019/9/24
  * @modified by:
  */
-@ChannelHandler.Sharable
 public class MessageResponseHandler extends SimpleChannelInboundHandler<MessageResponsePacket>{
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageResponsePacket messageResponsePacket) throws Exception {
-        System.out.println(new Date() + ": 接收到服务端的消息：" + messageResponsePacket.getMessage());
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageResponsePacket packet) throws Exception {
+        System.out.println(packet.getFromUserId() + ":【" + packet.getFromNikeName() + "】 -> " + packet.getMessage());
     }
 }

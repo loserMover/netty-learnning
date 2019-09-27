@@ -3,13 +3,11 @@ package com.home.netty.im.client;
 import com.home.netty.im.codec.PacketDecoder;
 import com.home.netty.im.codec.PacketEncoder;
 import com.home.netty.im.codec.Spliter;
-import com.home.netty.im.handler.LoginResponseHandler;
-import com.home.netty.im.handler.MessageResponseHandler;
-import com.home.netty.im.protocol.PacketCodec;
+import com.home.netty.im.console.ConsoleCommand;
+import com.home.netty.im.console.ConsoleCommandManager;
+import com.home.netty.im.handler.*;
 import com.home.netty.im.protocol.request.MessageRequestPacket;
-import com.home.netty.im.util.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -49,7 +47,14 @@ public class ImClientBootstrap {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new LogoutResponseHandler());
+                        ch.pipeline().addLast(new CreateGroupResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+                        ch.pipeline().addLast(new JoinGroupNoticeResponseHandler());
+                        ch.pipeline().addLast(new QuitGroupResponseHandler());
+                        ch.pipeline().addLast(new QuitGroupNoticeResponseHandler());
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
@@ -87,14 +92,11 @@ public class ImClientBootstrap {
      * @param channel
      */
     private static void startConsoleThread(Channel channel){
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                System.out.println("请输入消息发送至服务端：");
-                Scanner sc = new Scanner(System.in);
-                String line = sc.nextLine();
-                MessageRequestPacket packet = new MessageRequestPacket();
-                packet.setMessage(line);
-                channel.writeAndFlush(packet);
+                consoleCommandManager.exec(scanner, channel);
             }
         }).start();
     }

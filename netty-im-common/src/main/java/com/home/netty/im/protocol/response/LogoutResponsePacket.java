@@ -7,19 +7,11 @@ import lombok.Data;
 /**
  * @author: wulj13232
  * @description:
- * @date: Created in 18:36 2019/9/20
+ * @date: Created in 11:13 2019/9/27
  * @modified by:
  */
 @Data
-public class LoginResponsePacket extends Packet {
-
-    private String userId;
-
-    private String userName;
-
-    private String password;
-
-    private String nikeName;
+public class LogoutResponsePacket extends Packet {
 
     private boolean success;
 
@@ -27,6 +19,6 @@ public class LoginResponsePacket extends Packet {
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_RESPONSE;
+        return Command.LOGOUT_RESPONSE;
     }
 }
