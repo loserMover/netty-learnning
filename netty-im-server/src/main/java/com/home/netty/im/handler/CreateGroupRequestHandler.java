@@ -5,6 +5,7 @@ import com.home.netty.im.protocol.request.CreateGroupRequestPacket;
 import com.home.netty.im.protocol.response.CreateGroupResponsePacket;
 import com.home.netty.im.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -20,7 +21,14 @@ import java.util.UUID;
  * @date: Created in 16:33 2019/9/27
  * @modified by:
  */
+@ChannelHandler.Sharable
 public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<CreateGroupRequestPacket> {
+
+    public static final CreateGroupRequestHandler INSTANCE = new CreateGroupRequestHandler();
+
+    protected CreateGroupRequestHandler(){
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupRequestPacket msg) throws Exception {
         List<String> list = msg.getUserIdList();
@@ -35,6 +43,7 @@ public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<Creat
         }
         //创建群聊响应
         String groupId = UUID.randomUUID().toString();
+        SessionUtil.bindChannelGroup(groupId, channels);
         CreateGroupResponsePacket createGroupResponsePacket = new CreateGroupResponsePacket();
         createGroupResponsePacket.setGroupId(groupId);
         createGroupResponsePacket.setReason("成功创建群聊");

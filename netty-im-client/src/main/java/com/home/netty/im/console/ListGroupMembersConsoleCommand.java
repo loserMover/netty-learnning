@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class ListGroupMembersConsoleCommand implements ConsoleCommand {
     @Override
     public void exec(Scanner scanner, Channel channel) {
-        System.out.println("获取所有群成员，请求输入groupId：");
+        System.out.print("获取所有群成员，请求输入groupId：");
         String groupId = scanner.next();
         ListGroupMembersRequestPacket listGroupMembersRequestPacket = new ListGroupMembersRequestPacket();
         listGroupMembersRequestPacket.setGroupId(groupId);

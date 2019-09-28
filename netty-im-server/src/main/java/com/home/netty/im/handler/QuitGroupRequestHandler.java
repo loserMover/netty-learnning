@@ -5,6 +5,7 @@ import com.home.netty.im.protocol.request.QuitGroupRequestPacket;
 import com.home.netty.im.protocol.response.QuitGroupNoticeResponsePacket;
 import com.home.netty.im.protocol.response.QuitGroupResponsePacket;
 import com.home.netty.im.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -15,7 +16,13 @@ import io.netty.channel.group.ChannelGroup;
  * @date: Created in 19:17 2019/9/27
  * @modified by:
  */
+@ChannelHandler.Sharable
 public class QuitGroupRequestHandler extends SimpleChannelInboundHandler<QuitGroupRequestPacket> {
+
+    public static final QuitGroupRequestHandler INSTANCE = new QuitGroupRequestHandler();
+
+    protected QuitGroupRequestHandler(){
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, QuitGroupRequestPacket msg) throws Exception {

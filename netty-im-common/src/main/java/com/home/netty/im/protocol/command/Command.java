@@ -88,4 +88,23 @@ public interface Command {
      */
     Byte LIST_GROUP_MEMBERS_RESPONSE = 16;
 
+    /**
+     * 群组消息请求
+     */
+    Byte GROUP_MESSAGE_REQUEST = 17;
+
+    /**
+     * 群组消息相应
+     */
+    Byte GROUP_MESSAGE_RESPONSE = 18;
+
+    /**
+     * 心跳请求
+     */
+    Byte HEART_REQUEST = 19;
+
+    /**
+     * 心跳响应
+     */
+    Byte HEART_RESPONSE = 20;
 }

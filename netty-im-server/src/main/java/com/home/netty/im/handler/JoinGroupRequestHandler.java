@@ -5,6 +5,7 @@ import com.home.netty.im.protocol.request.JoinGroupRequestPacket;
 import com.home.netty.im.protocol.response.JoinGroupNoticeResponsePacket;
 import com.home.netty.im.protocol.response.JoinGroupResponsePacket;
 import com.home.netty.im.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -15,7 +16,14 @@ import io.netty.channel.group.ChannelGroup;
  * @date: Created in 19:02 2019/9/27
  * @modified by:
  */
+@ChannelHandler.Sharable
 public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+
+    public static final JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
+
+    protected JoinGroupRequestHandler(){
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket msg) throws Exception {
         // 1. 获取群对应的 channelGroup，然后将当前用户的 channel 添加进去

@@ -1,5 +1,6 @@
 package com.home.netty.im.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -9,7 +10,14 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @date: Created in 11:33 2019/9/26
  * @modified by:
  */
+@ChannelHandler.Sharable
 public class LifeCyCleTest2Handler extends ChannelInboundHandlerAdapter {
+
+    public static final LifeCyCleTest2Handler INSTANCE = new LifeCyCleTest2Handler();
+
+    protected LifeCyCleTest2Handler(){
+    }
+
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("LifeCyCleTest2Handler -> channelRegistered");

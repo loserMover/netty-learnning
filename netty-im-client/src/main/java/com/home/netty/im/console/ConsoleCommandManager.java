@@ -30,7 +30,7 @@ public class ConsoleCommandManager {
         consoleCommandMap.put("joinGroup", new JoinGroupConsoleCommand());
         consoleCommandMap.put("quitGroup", new QuitGroupConsoleCommand());
         consoleCommandMap.put("listGroupMembers", new ListGroupMembersConsoleCommand());
-   //     consoleCommandMap.put("sendToGroup", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("sendToGroup", new SendToGroupConsoleCommand());
     }
 
     public void exec(Scanner scanner, Channel channel){

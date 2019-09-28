@@ -6,6 +6,7 @@ import com.home.netty.im.protocol.request.LogoutRequestPacket;
 import com.home.netty.im.protocol.response.LogoutResponsePacket;
 import com.home.netty.im.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -15,7 +16,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @date: Created in 10:57 2019/9/27
  * @modified by:
  */
+@ChannelHandler.Sharable
 public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutRequestPacket> {
+
+    public static final LogoutRequestHandler INSTANCE = new LogoutRequestHandler();
+
+    protected LogoutRequestHandler(){
+    }
+
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LogoutRequestPacket packet) throws Exception {

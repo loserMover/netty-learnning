@@ -1,6 +1,7 @@
 package com.home.netty.im.handler;
 
 import com.home.netty.im.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -10,7 +11,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @date: Created in 16:54 2019/9/26
  * @modified by:
  */
+@ChannelHandler.Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
+
+    public static final AuthHandler INSTANCE = new AuthHandler();
+
+    protected AuthHandler(){
+
+    }
+
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if(SessionUtil.hasLogin(ctx.channel())){
